@@ -55,7 +55,7 @@ PROVIDERS = [
         "name": "groq",
         "url": "https://api.groq.com/openai/v1/chat/completions",
         "key": os.environ.get("GROQ_KEY", "FILL_IN_GROQ_KEY"),
-        "model": "llama3-70b-8192",
+        "model": "llama-3.3-70b-versatile",
     },
 ]
 _provider_cycle = itertools.cycle(PROVIDERS)
