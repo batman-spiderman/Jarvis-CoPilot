@@ -18,7 +18,7 @@
     <application
         android:name=".JarvisApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="Jarvis System Co-Pilot"
         android:theme="@style/Theme.JarvisCoPilot"
         android:supportsRtl="true"
