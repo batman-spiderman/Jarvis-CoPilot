@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jarvis System Co-Pilot</string>
+
+    <string name="accessibility_service_description">
+        Lets Jarvis read the current screen aloud when you tap "Summarize this screen",
+        and toggle Battery Saver when you ask. Only activates when you trigger it —
+        never runs continuously in the background.
+    </string>
+
+    <string name="notification_listener_justification">
+        Reads your notifications aloud (accessibility feature) and keeps a viewable,
+        clearable history in the app, in case you miss one.
+    </string>
+
+    <string name="foreground_service_notification_text">
+        Reading notifications aloud. Tap to open.
+    </string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Deliberately narrow: only content-changed events, short timeout, no
+  TYPE_WINDOW_STATE_CHANGED (which would let the service track every app
+  the user switches to). This service is inert until requestScreenCapture()
+  sets a one-shot flag from the UI — see ScreenSummarizerAccessibilityService.kt.
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowContentChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagRetrieveInteractiveWindows"
+    android:canRetrieveWindowContent="true"
+    android:notificationTimeout="100"
+    android:description="@string/accessibility_service_description" />

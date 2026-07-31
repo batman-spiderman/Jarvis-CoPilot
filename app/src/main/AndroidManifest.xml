@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============ FINAL MINIMAL PERMISSION SET (see architecture §17) ============ -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Deliberately NOT declared: WRITE_EXTERNAL_STORAGE, MANAGE_EXTERNAL_STORAGE,
+         ACCESS_BACKGROUND_LOCATION, RECEIVE_BOOT_COMPLETED -->
+
+    <application
+        android:name=".JarvisApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Jarvis System Co-Pilot"
+        android:theme="@style/Theme.JarvisCoPilot"
+        android:supportsRtl="true"
+        tools:targetApi="34">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.JarvisCoPilot">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Foreground service: keeps notification-reading feature alive.
+             START_STICKY only — no boot receiver, no forced always-on.
+             Started/stopped from NotificationDigestService's listener
+             lifecycle (onListenerConnected/onListenerDisconnected), not at
+             app launch. Type is dataSync — this service itself just relays
+             notification digest state and cloud-upload queueing; the actual
+             text-to-speech audio comes from NotificationDigestService, not
+             this one, so "mediaPlayback" would have been inaccurate. -->
+        <service
+            android:name=".service.JarvisForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Notification Listener — reads notifications aloud + logs visible history.
+             Granted via Settings > Notification Access, not a manifest uses-permission. -->
+        <service
+            android:name=".service.NotificationDigestService"
+            android:exported="false"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!-- Accessibility Service — one-shot screen summarizer + settings toggle.
+             Inert unless explicitly triggered from the UI. Granted via
+             Settings > Accessibility, not a manifest uses-permission. -->
+        <service
+            android:name=".service.ScreenSummarizerAccessibilityService"
+            android:exported="false"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+    </application>
+</manifest>

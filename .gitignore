@@ -1,0 +1,16 @@
+# Android
+*.iml
+.gradle/
+/local.properties
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Python / relay server
+relay-server/.env
+relay-server/venv/
+relay-server/__pycache__/
+*.pyc
